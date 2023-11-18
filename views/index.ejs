@@ -16,64 +16,25 @@
                     <img src="/images/icon-sun.svg" alt="">
                 </div>
             </header>
-            <form action="post">
+            <form action="/" method="post" id="myForm">
                 <div class="round">
                     <input type="checkbox"  id="checkbox">
                     <label for="checkbox"></label>
-                    <input type="text" id="input" placeholder="Create a new todo">
+                    <input type="text" id="input" name="newItem" placeholder="Create a new todo">
                 </div>
                 
             </form>
             <article>
-                <div class="round task">
-                    <input type="checkbox"  id="checkbox2">
-                    <label for="checkbox2"></label>
-                    <p>complete online JavaScript course</p>
-                </div>
-                <div class="round task">
-                    <input type="checkbox"  id="checkbox3">
-                    <label for="checkbox3"></label>
-                    <p>ten minutes meditation</p>
-                </div>
-                <div class="round task">
-                    <input type="checkbox"  id="checkbox4">
-                    <label for="checkbox4"></label>
-                    <p>Jog around the park 3X</p>
-                </div>
-                <div class="round task">
-                    <input type="checkbox"  id="checkbox5">
-                    <label for="checkbox5"></label>
-                    <p>read for one hour</p>
-                </div>
-                <div class="round task">
-                    <input type="checkbox"  id="checkbox6">
-                    <label for="checkbox6"></label>
-                    <p>pick-up grocery </p>
-                </div>
-                <div class="round task">
-                    <input type="checkbox"  id="checkbox7">
-                    <label for="checkbox7"></label>
-                    <p>complete Todo app on front-end mentor</p>
-                </div>
-                <div class="adress-bar">
-                    <div class="items-left status">
-                        <p>5 items left </p>
-                    </div>
-                    <div class="todo-status">
-                        <div class="all status">
-                            <p>All </p>
-                        </div>
-                        <div class="active status">
-                            <p> Active </p> 
-                        </div>
-                        <div class="complete status">
-                            <p>Completed</p> 
+                <% for(var i=0;i<newTodos.length; i++) { %>
+                    <div class="round task">
+                        <input type="checkbox"  id=[i]>
+                        <label for=[i]></label>
+                        <p> <%= newTodos[i] %></p>
+                        <div class="close-icon">
+                            <img src="/images/icon-cross.svg" alt="">
                         </div>
                     </div>
-                    <div class="delete status">
-                        <p>Clear Completed</p>
-                    </div>
-                </div>
+                <%  };%> 
                
             </article>
             <footer>
@@ -81,5 +42,6 @@
             </footer>
         </section>
     </main>
+    <script src="/script/index.js"></script>
 </body>
 </html>
