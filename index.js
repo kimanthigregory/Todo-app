@@ -16,6 +16,11 @@ app.post("/",(req,res)=>{
     res.redirect("/");
     
 })
+app.delete("/delete/:todo", (req,res)=>{
+    const todoDelete =decodeURIComponent(req.params.todo);
+    todos=todos.filter(todo=>todo !==todoDelete)
+    res.json({succes:true,message:"todo deleted successfully"});
+})
 app.listen(port, ()=>{
     console.log(`server started at ${port}`);
 })

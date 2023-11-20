@@ -113,9 +113,19 @@ article{
   height: 3.5rem;
   border-radius: 0;
 }
+
 .task p{
   color: hsl(236, 33%, 92%);
+  background-color: hsl(235, 24%, 19%);
   width: 75%;
+  border: none;
+  font-size: 18px;
+  font-family: 'Josefin Sans', sans-serif;
+  font-weight: 400;
+}
+button{
+  background-color: hsl(235, 24%, 19%);
+  border: none;
 }
 /* .close-icon{
 
