@@ -20,22 +20,43 @@
                 <div class="round">
                     <input type="checkbox"  id="checkbox">
                     <label for="checkbox"></label>
-                    <input type="text" id="input" name="newItem" placeholder="Create a new todo">
+                    <input type="text" id="input" name="newItem" placeholder="Create a new todo" required>
                 </div>
                 
             </form>
             <article>
-                <% for(var i=0;i<newTodos.length; i++) { %>
-                    <li  class="round task">
-                        <input type="checkbox"  id="checkbox<%= i %>">
-                        <label for="checkbox<%= i %>"></label>
-                        <p><%= newTodos[i] %></p> 
-                        <button onclick="deleteTodo('<%= newTodos[i] %>')">
-                            <img src="/images/icon-cross.svg" alt="">
-                        </button>                        
-                    </li>
-                <%  };%> 
-               
+                <div class="todo-container">
+                    <% for(var i=0;i<newTodos.length; i++) { %>
+                        <li  class="round task">
+                            <input type="checkbox"  id="checkbox<%= i %>" >
+                            <label for="checkbox<%= i %>"></label>
+                            <p><%= newTodos[i] %></p> 
+                            <button onclick="deleteTodo('<%= newTodos[i] %>')">
+                                <img src="/images/icon-cross.svg" alt="">
+                            </button>                        
+                        </li>
+                    <%  };%> 
+                </div>
+                
+                <div class="adress-bar">
+                    <div class="items-left status">
+                        <p><%= completedTask %> items left </p>
+                    </div>
+                    <div class="todo-status">
+                        <div class="all status">
+                            <p>All </p>
+                        </div>
+                        <div class="active status">
+                            <p> Active </p> 
+                        </div>
+                        <div class="complete status">
+                            <p>Completed</p> 
+                        </div>
+                    </div>
+                    <div class="delete status">
+                        <p>Clear Completed</p>
+                    </div>
+                </div>
             </article>
             <footer>
                 <p>Drag and drop to reorder list</p>
@@ -44,5 +65,6 @@
     </main>
     <script src="/script/submit.js"></script>
     <script src="/script/delete.js"></script>
+    <script src="/script/completedTask.js"></script>
 </body>
 </html>

@@ -107,6 +107,32 @@ article{
   border-radius: 5px;
   overflow: hidden;
 }
+.todo-container{
+  max-height: 350px;
+  overflow: scroll;
+  overflow-x: hidden;
+}
+/* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  .todo-container{
+    scrollbar-width: none;
+    scrollbar-color: #323144 hsl(235, 24%, 19%);
+  }
+
+  /* Chrome, Edge, and Safari */
+  .todo-container::-webkit-scrollbar {
+    width: 11px;
+  }
+
+  .todo-container::-webkit-scrollbar-track {
+    background: hsl(235, 24%, 19%);
+  }
+
+  .todo-container::-webkit-scrollbar-thumb {
+    background-color: #323144;
+    border-radius: 11px;
+    border: 3px solid hsl(235, 24%, 19%);
+  }
 .task{
   border-bottom: 1px solid hsl(237, 14%, 26%);
   width: 100%;
