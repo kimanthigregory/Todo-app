@@ -7,9 +7,16 @@ function completedTodo(todo){
             "content-type":" application/x-www-form-urlencoded",
         },
         body:`todo=${encodeURIComponent(todo)}`,
+      })
+    .then(response=>response.json())
+    .then(data=>{
+      if(data.success){
+        console.log("to do marked as completed succesfully");
+      }
+      else{
+        console.error(data.message)
+      }
     })
-    .then(response=>response.redirected ?window.location.href=response.url:null)
-    document.querySelector(".round p").classList.add("line")
     .catch(error=>console.error(error));
 }
 const checkboxes = document.querySelectorAll('.checkbox');
@@ -38,11 +45,11 @@ const updatedTodos =newTodos.map(todo=>todo.split(","));
 const allTodos = updatedTodos[0].length;
 
 function updateCounterUI() {
-  // You can update the UI with the new completedTodosCount value
-  // For example, if you have an element with id 'counter', you can do:
+  //  update the UI with the new completedTodosCount value
+ 
   document.getElementById('complete').innerText = allTodos-completedTodosCount +" items left";
 }
 
 
-// You can also call updateCounterUI initially to set the counter value
+// updateCounterUI initially to set the counter value
 updateCounterUI();

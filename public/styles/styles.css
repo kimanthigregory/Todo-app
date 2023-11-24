@@ -153,6 +153,9 @@ button{
   background-color: hsl(235, 24%, 19%);
   border: none;
 }
+button p{
+  color: #fff;
+}
 /* .close-icon{
 
 } */
@@ -182,6 +185,9 @@ button{
 }
 .status p:hover{
   color: hsl(236, 33%, 92%);
+}
+.status button p{
+  color: hsl(233, 14%, 35%);
 }
 footer p{
   text-align: center;
