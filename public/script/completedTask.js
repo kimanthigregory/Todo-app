@@ -19,6 +19,7 @@ function completedTodo(todo){
     })
     .catch(error=>console.error(error));
 }
+const compl=document.querySelector("#complete-status")
 const checkboxes = document.querySelectorAll('.checkbox');
 const check =document.querySelector(".checkbox");
 let completedTodosCount = 0; // Counter for completed todos
