@@ -2,7 +2,8 @@ import express from "express";
 
 const app = express();
 const port = 3000;
-var todos = [];
+let todos = [];
+let comp =[]
 let completedTask= 0;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -34,8 +35,14 @@ app.post("/completed",(req,res)=>{
     // console.log(todos);
     
 })
-app.post("/submit",(req,res)=>{
-    console.log(todos);
+app.get("/complete",(req,res)=>{
+    res.render("index.ejs",{newTodos:comp});
+})
+app.get("/completedTodo",(req,res)=>{
+    const list = todos.filter(todo=>todo.completed !==false);
+    comp.push(...list);
+    console.log(comp);
+    res.redirect("/complete");
 })
 app.delete("/delete/:todo", (req,res)=>{
     const todoDelete =decodeURIComponent(req.params.todo);
