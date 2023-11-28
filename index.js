@@ -3,7 +3,9 @@ import express from "express";
 const app = express();
 const port = 3000;
 let todos = [];
-let comp =[]
+let comp =[];
+let active=[];
+let all =[];
 let completedTask= 0;
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
@@ -40,10 +42,25 @@ app.get("/complete",(req,res)=>{
 })
 app.get("/completedTodo",(req,res)=>{
     const list = todos.filter(todo=>todo.completed !==false);
-    comp.push(...list);
-    console.log(comp);
+    const newArray =list.filter(item=>!comp.some(existingItem=>existingItem.text ===item.text))
+    comp.push(...newArray);
+    // console.log(comp);
     res.redirect("/complete");
 })
+app.get("/active",(req,res)=>{
+    res.render("index.ejs",{newTodos:active});
+})
+app.get("/activeTodo",(req,res)=>{
+    const list = todos.filter(todo=>todo.completed !==true);
+    const newArray =list.filter(item=>!active.some(existingItem=>existingItem.text ===item.text))
+    active.push(...newArray);
+    console.log(active);
+    res.redirect("/active");
+})
+app.get("/allTodo",(req,res)=>{
+    res.redirect("/");
+})
+
 app.delete("/delete/:todo", (req,res)=>{
     const todoDelete =decodeURIComponent(req.params.todo);
     todos=todos.filter(todo=>todo !==todoDelete)

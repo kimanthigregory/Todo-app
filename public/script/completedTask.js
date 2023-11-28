@@ -44,10 +44,21 @@ function completedTodo(todo){
 const checkboxes = document.querySelectorAll('.checkbox');
 const check =document.querySelector(".checkbox");
 const button =document.getElementById("complete-status");
+const active =document.getElementById("active");
+const all =document.getElementById("all");
 button.addEventListener("click", function() {
   // Redirect to another route when the button is clicked
   window.location.href = "/completedTodo";
 });
+active.addEventListener("click", function() {
+  // Redirect to another route when the button is clicked
+  window.location.href = "/activeTodo";
+});
+all.addEventListener("click", function() {
+  // Redirect to another route when the button is clicked
+  window.location.href = "/allTodo";
+});
+
 let completedTodosCount = 0; // Counter for completed todos
 let tod =check.getAttribute("onchange")
 
