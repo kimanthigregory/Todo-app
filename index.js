@@ -28,8 +28,11 @@ app.post("/completed",(req,res)=>{
     const completedTodo=req.body.todo
     const todoIndex =todos.findIndex(todo=>todo.text===completedTodo)
     if(todoIndex !==-1){
-        todos[todoIndex].completed=!todos[todoIndex].completed;
-        
+        const completedStatus= todos[todoIndex].completed;
+        todos[todoIndex].completed=!completedStatus;
+        if (completedStatus){
+            active.filter(todo=>todo.text !==completedTodo);
+        }
         res.json({succes:true,message:"todo marked completed succesfully"});
     }else{
         res.status(404).json({succes:false,message:"todo not found"})
@@ -39,22 +42,25 @@ app.post("/completed",(req,res)=>{
 })
 app.get("/complete",(req,res)=>{
     res.render("index.ejs",{newTodos:comp});
+    comp=[]
 })
 app.get("/completedTodo",(req,res)=>{
     const list = todos.filter(todo=>todo.completed !==false);
     const newArray =list.filter(item=>!comp.some(existingItem=>existingItem.text ===item.text))
     comp.push(...newArray);
-    // console.log(comp);
+    console.log(comp);
     res.redirect("/complete");
+    
 })
 app.get("/active",(req,res)=>{
     res.render("index.ejs",{newTodos:active});
+    active=[];
 })
 app.get("/activeTodo",(req,res)=>{
     const list = todos.filter(todo=>todo.completed !==true);
-    const newArray =list.filter(item=>!active.some(existingItem=>existingItem.text ===item.text))
-    active.push(...newArray);
-    console.log(active);
+    const newList =list.filter(item=>!active.some(existingItem=>existingItem.text ===item.text));
+    active.push(...newList)
+    console.log(active);    
     res.redirect("/active");
 })
 app.get("/allTodo",(req,res)=>{
