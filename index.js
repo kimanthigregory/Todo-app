@@ -12,7 +12,7 @@ app.use(express.urlencoded({ extended: true }));
 app.get("/", (req,res)=>{
    
     res.render("index.ejs",{newTodos:todos,completedTask});
-        
+     
 })
 
 app.post("/",(req,res)=>{
@@ -66,7 +66,13 @@ app.get("/activeTodo",(req,res)=>{
 app.get("/allTodo",(req,res)=>{
     res.redirect("/");
 })
-
+app.get("/clearCompleted",(req,res)=>{
+    const cleared =todos.filter(item=>item.completed !==true)
+    todos=[]
+    todos.push(...cleared);    
+    console.log(cleared);
+    res.redirect("/");
+})
 app.delete("/delete/:todo", (req,res)=>{
     const todoDelete =decodeURIComponent(req.params.todo);
     todos=todos.filter(todo=>todo !==todoDelete)
