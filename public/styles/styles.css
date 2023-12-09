@@ -251,3 +251,39 @@ body.light .round label {
 body.light .round{
   background-color: #fff;
 }
+@media(max-width:1000px){
+  section{
+    width: 60%;
+  }
+}
+@media(max-width:700px){
+  section{
+    width: 70%;
+  }
+}
+@media(max-width:600px){
+  section{
+    width: 80%;
+  }
+}
+@media(max-width:480px){
+  section{
+    width: 100%;
+  }
+  .adress-bar{
+  
+    justify-content: space-between;
+  }
+  .items-left{
+    width: 22%;
+  }
+  .todo-status{
+    width: 40%;
+  }
+  .delete{
+    width: 33%;
+  }
+  button{
+    padding: 0;
+  }
+}

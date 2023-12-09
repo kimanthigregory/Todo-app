@@ -29,7 +29,7 @@ app.post("/completed",(req,res)=>{
     const todoIndex =todos.findIndex(todo=>todo.text===completedTodo)
     if(todoIndex !==-1){
         const completedStatus= todos[todoIndex].completed;
-        todos[todoIndex].completed=!completedStatus;
+        todos[todoIndex].completed=!completedStatus; 
         if (completedStatus){
             active.filter(todo=>todo.text !==completedTodo);
         }
