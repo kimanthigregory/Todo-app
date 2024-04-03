@@ -1,27 +1,61 @@
 import express from "express";
+import pg from "pg";
+
+const db = new pg.Client({
+    user:"postgres",
+    host:"localhost",
+    database:"Todo-app",
+    password:"greg",
+    port:"5432",
+})
+
+db.connect();
+
+
 
 const app = express();
 const port = 3000;
-let todos = [];
+// let todos = [];
 let comp =[];
 let active=[];
 let all =[];
 let completedTask= 0;
+
+async function getItems (){
+     const result = await db.query("  SELECT *  FROM todo ")
+     const todoItems = result.rows;
+     return todoItems
+}
+
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
-app.get("/", (req,res)=>{
-   
+app.get("/", async(req,res)=>{
+    const todos =  await getItems(); 
     res.render("index.ejs",{newTodos:todos,completedTask});
      
 })
 
-app.post("/",(req,res)=>{
-    const todo =req.body.newItem.trim();
-    if(todo !==""){
-        todos.push({text:todo,completed:false})
+app.post("/",async(req,res)=>{
+    try {
+        const todo =req.body.newItem.trim();
+        console.log(todo);
+        if(todo !==""){
+            const result =  await db.query("INSERT INTO todo (item,completed) VALUES ($1,$2) RETURNING *;",
+            [todo,false]
+            );
+            const todosItem = result.rows
+            const extracterdItem = todosItem.map(todo =>({item:todo.item,completed:todo.completed}))
+            console.log(extracterdItem);
+            // console.log(todosItem[2]);
+
+            // todos.push(extracterdItem);
+        }
+    
+        res.redirect("/"); 
+    } catch (error) {
+        console.log(error);
     }
     
-    res.redirect("/");
     
 })
 app.post("/completed",(req,res)=>{
@@ -79,6 +113,6 @@ app.delete("/delete/:todo", (req,res)=>{
     res.json({succes:true,message:"todo deleted successfully"});
 })
 app.listen(port, ()=>{
-    console.log(`server started at ${port}`);
+    console.log(`server started at http://localhost:${port} `);
 
 })
