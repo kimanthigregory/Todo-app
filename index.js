@@ -31,6 +31,7 @@ app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.get("/", async(req,res)=>{
     const todos =  await getItems(); 
+    // console.log(todos)
     res.render("index.ejs",{newTodos:todos,completedTask});
      
 })
@@ -38,7 +39,7 @@ app.get("/", async(req,res)=>{
 app.post("/",async(req,res)=>{
     try {
         const todo =req.body.newItem.trim();
-        console.log(todo);
+        // console.log(todo);
         if(todo !==""){
             const result =  await db.query("INSERT INTO todo (item,completed) VALUES ($1,$2) RETURNING *;",
             [todo,false]
@@ -58,18 +59,26 @@ app.post("/",async(req,res)=>{
     
     
 })
-app.post("/completed",(req,res)=>{
-    const completedTodo=req.body.todo
-    const todoIndex =todos.findIndex(todo=>todo.text===completedTodo)
-    if(todoIndex !==-1){
-        const completedStatus= todos[todoIndex].completed;
-        todos[todoIndex].completed=!completedStatus; 
-        if (completedStatus){
-            active.filter(todo=>todo.text !==completedTodo);
+app.post("/completed",async(req,res)=>{
+    const completedTodoId = req.body.todo
+    console.log(completedTodoId)
+    try {
+        const result = await db.query("SELECT * FROM todo WHERE id= $1;",
+        [completedTodoId]);
+        const todos = result.rows[0]
+        if(todos){
+            const completedStatus= todos.completed;
+            todos.completed=!completedStatus; 
+       
+            await db.query("UPDATE  todo SET  completed = $1 WHERE  id = $2;",[todos.completed,todos.id ])
+            res.json({succes:true,message:"todo marked completed succesfully"});
+        }else{
+            res.status(404).json({succes:false,message:"todo not found"})
         }
-        res.json({succes:true,message:"todo marked completed succesfully"});
-    }else{
-        res.status(404).json({succes:false,message:"todo not found"})
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({succes:false,message:"internal server error"})
+
     }
     // console.log(todos);
     
@@ -78,12 +87,18 @@ app.get("/complete",(req,res)=>{
     res.render("index.ejs",{newTodos:comp});
     comp=[]
 })
-app.get("/completedTodo",(req,res)=>{
-    const list = todos.filter(todo=>todo.completed !==false);
-    const newArray =list.filter(item=>!comp.some(existingItem=>existingItem.text ===item.text))
-    comp.push(...newArray);
-    console.log(comp);
-    res.redirect("/complete");
+app.get("/completedTodo",async(req,res)=>{
+
+    try {
+        
+    } catch (error) {
+        
+    }
+    // const list = todos.filter(todo=>todo.completed !==false);
+    // const newArray =list.filter(item=>!comp.some(existingItem=>existingItem.text ===item.text))
+    // comp.push(...newArray);
+    // console.log(comp);
+    // res.redirect("/complete");
     
 })
 app.get("/active",(req,res)=>{
