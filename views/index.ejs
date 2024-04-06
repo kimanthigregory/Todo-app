@@ -31,7 +31,7 @@
                             <input type="checkbox" name="todoId" value = "<%= newTodos[i].id %>" id="checkbox<%= i %>" class="checkbox" onchange="getTodos('<%= newTodos%>')" onclick="completedTodo('<%= newTodos[i].id %>')">
                             <label for="checkbox<%= i %>"></label>
                             <p><%= newTodos[i].item %></p> 
-                            <button onclick="deleteTodo('<%= newTodos[i].item %>')">
+                            <button onclick="deleteTodo('<%= newTodos[i].id %>')">
                                 <img src="/images/icon-cross.svg" alt="">
                             </button>                        
                         </li>

@@ -41,8 +41,8 @@ app.post("/",async(req,res)=>{
         const todo =req.body.newItem.trim();
         // console.log(todo);
         if(todo !==""){
-            const result =  await db.query("INSERT INTO todo (item,completed) VALUES ($1,$2) RETURNING *;",
-            [todo,false]
+            const result =  await db.query("INSERT INTO todo (item) VALUES ($1) RETURNING *;",
+            [todo]
             );
             const todosItem = result.rows
             const extracterdItem = todosItem.map(todo =>({item:todo.item,completed:todo.completed}))
@@ -66,10 +66,11 @@ app.post("/completed",async(req,res)=>{
         const result = await db.query("SELECT * FROM todo WHERE id= $1;",
         [completedTodoId]);
         const todos = result.rows[0]
+        console.log(todos);
         if(todos){
             const completedStatus= todos.completed;
             todos.completed=!completedStatus; 
-       
+            console.log(todos);
             await db.query("UPDATE  todo SET  completed = $1 WHERE  id = $2;",[todos.completed,todos.id ])
             res.json({succes:true,message:"todo marked completed succesfully"});
         }else{
@@ -83,49 +84,66 @@ app.post("/completed",async(req,res)=>{
     // console.log(todos);
     
 })
-app.get("/complete",(req,res)=>{
-    res.render("index.ejs",{newTodos:comp});
-    comp=[]
-})
 app.get("/completedTodo",async(req,res)=>{
+    try {
+        const result = await db.query("SELECT * FROM  todo WHERE completed = $1; ",[true])
+        const completedTodo = result.rows
+        console.log(completedTodo);
+
+        res.render("index.ejs",{newTodos:completedTodo});
+
+    } catch (error) {
+        console.log(error)
+    }
+})
+// app.get("/active",(req,res)=>{
+//     res.render("index.ejs",{newTodos:active});
+//     active=[];
+// })
+app.get("/activeTodo",async(req,res)=>{
 
     try {
-        
+        const result = await db.query("SELECT * FROM  todo WHERE completed = $1; ",[false])
+        const activeTodo = result.rows
+        console.log(activeTodo);
+
+        res.render("index.ejs",{newTodos:activeTodo});
+
     } catch (error) {
-        
+        console.log(error)
     }
-    // const list = todos.filter(todo=>todo.completed !==false);
-    // const newArray =list.filter(item=>!comp.some(existingItem=>existingItem.text ===item.text))
-    // comp.push(...newArray);
-    // console.log(comp);
-    // res.redirect("/complete");
-    
-})
-app.get("/active",(req,res)=>{
-    res.render("index.ejs",{newTodos:active});
-    active=[];
-})
-app.get("/activeTodo",(req,res)=>{
-    const list = todos.filter(todo=>todo.completed !==true);
-    const newList =list.filter(item=>!active.some(existingItem=>existingItem.text ===item.text));
-    active.push(...newList)
-    console.log(active);    
-    res.redirect("/active");
+
 })
 app.get("/allTodo",(req,res)=>{
     res.redirect("/");
 })
-app.get("/clearCompleted",(req,res)=>{
-    const cleared =todos.filter(item=>item.completed !==true)
-    todos=[]
-    todos.push(...cleared);    
-    console.log(cleared);
-    res.redirect("/");
+app.get("/clearCompleted",async(req,res)=>{
+
+    try {
+        const result = await db.query("DELETE * FROM  todo WHERE completed = $1; ",[true])
+        const clearTodo = result.rows
+        console.log(clearTodo);
+
+        res.render("index.ejs",{newTodos:clearTodo});
+
+    } catch (error) {
+        console.log(error)
+    }
 })
-app.delete("/delete/:todo", (req,res)=>{
+app.delete("/delete/:todo", async(req,res)=>{
     const todoDelete =decodeURIComponent(req.params.todo);
-    todos=todos.filter(todo=>todo !==todoDelete)
-    res.json({succes:true,message:"todo deleted successfully"});
+    console.log(todoDelete);
+    try {
+        const result = await db.query("DELETE FROM  todo WHERE id = $1; ",[todoDelete])
+        const deleteTodo = result.rows
+        console.log(deleteTodo);
+
+        // res.redirect("/");
+        res.json({succes:true,message:"todo deleted successfully"});
+
+    } catch (error) {
+        console.log(error)
+    }
 })
 app.listen(port, ()=>{
     console.log(`server started at http://localhost:${port} `);
