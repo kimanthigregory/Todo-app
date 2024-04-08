@@ -6,10 +6,12 @@ function deleteTodo(todo){
     .then(response=>response.json())
     .then(data=>{
         if(data.succes){
-            const todoItem=document.querySelectorAll("li p");
-            todoItem.forEach((item) => {
-                if(item.textContent.includes(todo)){
-                    item.closest("li").remove();
+            const buttons=document.querySelectorAll("li button");
+            buttons.forEach((button) => {
+                const buttonId = button.getAttribute("id");
+                console.log(buttonId);
+                if(buttonId == todo){
+                    button.closest("li").remove();
                 }
             });
         }

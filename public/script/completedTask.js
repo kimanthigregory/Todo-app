@@ -12,7 +12,7 @@ function completedTodo(todo){
     .then(data=>{
       if(data.success){
         console.log("todo marked as completed succesfully");
-      }
+      } 
       else{
         console.error(data.message)
       }

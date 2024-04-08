@@ -16,9 +16,7 @@ db.connect();
 const app = express();
 const port = 3000;
 // let todos = [];
-let comp =[];
-let active=[];
-let all =[];
+
 let completedTask= 0;
 
 async function getItems (){
@@ -120,7 +118,7 @@ app.get("/allTodo",(req,res)=>{
 app.get("/clearCompleted",async(req,res)=>{
 
     try {
-        const result = await db.query("DELETE * FROM  todo WHERE completed = $1; ",[true])
+        const result = await db.query("DELETE  FROM  todo WHERE completed = $1; ",[true])
         const clearTodo = result.rows
         console.log(clearTodo);
 
