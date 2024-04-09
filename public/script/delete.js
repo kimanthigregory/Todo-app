@@ -21,3 +21,4 @@ function deleteTodo(todo){
     })
     .catch(error => console.error(error));
 }
+

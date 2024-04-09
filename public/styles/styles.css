@@ -95,6 +95,12 @@ header{
     text-decoration-color:hsl(233, 14%, 35%) ;
     color: hsl(233, 14%, 35%);
   }
+  .check:checked +label +p{
+    text-decoration: line-through;
+    text-decoration-color:hsl(233, 14%, 35%) ;
+    color: hsl(233, 14%, 35%);
+
+  }
   .round input[type="checkbox"]:checked + label:after {
     opacity: 1;
 
