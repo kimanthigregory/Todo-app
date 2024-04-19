@@ -24,21 +24,21 @@ theme.addEventListener("click", function (){
     // body.classList.toggle("light")
 }) 
 
-const checkmark = document.querySelector(".checkbox");
+// const checkmark = document.querySelector(".checkbox");
 
-checkmark.addEventListener("change", function(){
-    localStorage.setItem("checkBoxState",checkmark.checked)
-})
+// checkmark.addEventListener("change", function(){
+//     localStorage.setItem("checkBoxState",checkmark.checked)
+// })
 
-const savedState = localStorage.getItem("checkBoxState");
- if (savedState === "true"){
-    checkmark.checked = true;
+// const savedState = localStorage.getItem("checkBoxState");
+//  if (savedState === "true"){
+//     checkmark.checked = true;
 
-    checkmark.classList.add("check");
+//     checkmark.classList.add("check");
 
 
-}
-else{
-    checkmark.checked =false;
-    checkmark.classList.remove("check")
-}
+// }
+// else{
+//     checkmark.checked =false;
+//     checkmark.classList.remove("check")
+// }

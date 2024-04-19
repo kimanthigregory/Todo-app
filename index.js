@@ -69,8 +69,10 @@ app.post("/completed",async(req,res)=>{
             const completedStatus= todos.completed;
             todos.completed=!completedStatus; 
             console.log(todos);
-            await db.query("UPDATE  todo SET  completed = $1 WHERE  id = $2;",[todos.completed,todos.id ])
-            res.json({succes:true,message:"todo marked completed succesfully"});
+            const result = await db.query("UPDATE  todo SET  completed = $1 WHERE  id = $2 RETURNING *",[todos.completed,todos.id ]);
+            const updatedTodo  = result.rows;
+            res.json(updatedTodo)
+            // res.json({succes:true,message:"todo marked completed succesfully"});
         }else{
             res.status(404).json({succes:false,message:"todo not found"})
         }
