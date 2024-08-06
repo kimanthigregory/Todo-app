@@ -29,8 +29,8 @@
                     <% for(var i=0;i<newTodos.length; i++) { %>
                         <li  class="round task">
                             <input type="checkbox" name="todoId" value = "<%= newTodos[i].id %>" id="checkbox<%= i %>" class="checkbox" onchange="getTodos('<%= newTodos%>')" onclick="completedTodo('<%= newTodos[i].id %>')">
-                            <label for="checkbox<%= i %>"></label>
-                            <p><%= newTodos[i].item %></p> 
+                            <label for="checkbox<%= i %>" class="label"></label>
+                            <p class="todoText"><%= newTodos[i].item %></p> 
                             <button id="<%= newTodos[i].id %>" onclick="deleteTodo('<%= newTodos[i].id %>')">
                                 <img src="/images/icon-cross.svg" alt="">
                             </button>                        
@@ -50,7 +50,7 @@
                             <button id="active"><p> Active </p></button>
                         </div>
                         <div class="complete status" >
-                            <button  type="submit" id="complete-status" onclick="completeStatus('<%= newTodos %>')" ><p>Completed</p></button> 
+                            <button  type="submit" id="complete-status" )" ><p>Completed</p></button> 
                         </div>
                     </div>
                     <div class="delete status">
