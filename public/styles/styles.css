@@ -85,7 +85,7 @@ input[type="text"]:focus {
   margin: 0 2rem 0 1rem;
 }
 
-.round input[type="checkbox"]:checked + label {
+/* .round input[type="checkbox"]:checked + label {
   background: linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%))
       padding-box,
     linear-gradient(hsl(192, 100%, 67%), hsl(280, 87%, 65%)) border-box;
@@ -95,7 +95,7 @@ input[type="text"]:focus {
   text-decoration: line-through;
   text-decoration-color: hsl(233, 14%, 35%);
   color: hsl(233, 14%, 35%);
-}
+} */
 .check {
   text-decoration: line-through;
   color: hsl(233, 14%, 35%);
@@ -121,9 +121,10 @@ input[type="text"]:focus {
   top: 4px;
   transform: rotate(-45deg);
   width: 12px;
+  pointer-events: none;
 }
 
-.check:checked + .checked::after {
+/* .check:checked + .checked::after {
   border: 2px solid #fff;
   border-top: none;
   border-right: none;
@@ -135,7 +136,7 @@ input[type="text"]:focus {
   top: 4px;
   transform: rotate(-45deg);
   width: 12px;
-}
+} */
 
 .round input[type="checkbox"]:checked + label:after {
   opacity: 1;

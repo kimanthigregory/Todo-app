@@ -26,9 +26,8 @@ async function getItems() {
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 app.get("/", async (req, res) => {
-  const todos = await getItems();
   // console.log(todos)
-  res.render("index.ejs", { newTodos: todos, completedTask });
+  res.render("index.ejs");
 });
 
 app.post("/", async (req, res) => {
@@ -118,8 +117,10 @@ app.get("/activeTodo", async (req, res) => {
     console.log(error);
   }
 });
-app.get("/allTodo", (req, res) => {
-  res.redirect("/");
+app.get("/allTodo", async (req, res) => {
+  const todos = await getItems();
+
+  res.json(todos);
 });
 app.get("/clearCompleted", async (req, res) => {
   try {

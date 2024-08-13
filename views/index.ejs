@@ -26,16 +26,7 @@
             </form>
             <article>
                 <div class="todo-container">
-                    <% for(var i=0;i<newTodos.length; i++) { %>
-                        <li  class="round task">
-                            <input type="checkbox" name="todoId" value = "<%= newTodos[i].id %>" id="checkbox<%= i %>" class="checkbox" onchange="getTodos('<%= newTodos%>')" onclick="completedTodo('<%= newTodos[i].id %>')">
-                            <label for="checkbox<%= i %>" class="label"></label>
-                            <p class="todoText"><%= newTodos[i].item %></p> 
-                            <button id="<%= newTodos[i].id %>" onclick="deleteTodo('<%= newTodos[i].id %>')">
-                                <img src="/images/icon-cross.svg" alt="">
-                            </button>                        
-                        </li>
-                    <%  };%> 
+                
                 </div>
                 
                 <div class="adress-bar">

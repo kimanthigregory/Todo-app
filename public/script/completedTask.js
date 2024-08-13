@@ -19,11 +19,84 @@
 // .catch(error=>console.error(error));
 
 // }
+const createTodo = function (todo, index) {
+  const listItem = document.createElement("li");
+  const checkbox = document.createElement("input");
+  const paragraph = document.createElement("p");
+  const label = document.createElement("label");
+
+  listItem.classList.add("round");
+  listItem.classList.add("task");
+  checkbox.type = "checkbox";
+  checkbox.checked = todo.completed;
+
+  checkbox.classList.add("chec");
+  checkbox.value = todo.id;
+  checkbox.id = `checkbox${index}`;
+  checkbox.name = "todoId";
+
+  paragraph.textContent = todo.item;
+
+  label.htmlFor = `${todo.id}`;
+  // label.classList.add("checked");
+  let completedTodosCount = 0;
+  let checked = false;
+
+  label.addEventListener("click", function () {
+    label.classList.toggle("checked");
+    paragraph.classList.toggle("check");
+    paragraph.classList.toggle("todoText");
+    completedTodo(todo.id);
+    console.log(todo.id);
+    checked = !checked;
+    if (checked) {
+      completedTodosCount++;
+      console.log(completedTodosCount);
+    } else {
+      completedTodosCount--;
+      console.log(completedTodosCount);
+    }
+  });
+
+  function updateCounterUI() {
+    //  update the UI with the new completedTodosCount value
+
+    document.getElementById("complete").innerText =
+      allTodos - completedTodosCount + " items left";
+  }
+
+  // updateCounterUI initially to set the counter value
+  updateCounterUI();
+
+  if (todo.completed) {
+    label.classList.add("checked");
+    paragraph.classList.add("check");
+  } else {
+    label.classList.remove("checked");
+    paragraph.classList.remove("check");
+    paragraph.classList.add("todoText");
+  }
+
+  todoContainer.appendChild(listItem);
+  listItem.appendChild(checkbox);
+  listItem.appendChild(label);
+  listItem.appendChild(paragraph);
+};
+fetch(`/allTodo`, {
+  method: "GET",
+})
+  .then((response) => response.json())
+  .then((data) => {
+    data.forEach((todo, index) => {
+      createTodo(todo, index);
+    });
+  })
+  .catch((error) => console.error(error));
 
 const paragraph = document.querySelector(".task p");
 const todoContainer = document.querySelector(".todo-container");
 const list = document.querySelector("li");
-const checkboxes = document.querySelectorAll(".checkbox");
+const checkboxes = document.querySelectorAll(".chec");
 const checkboxs = document.querySelectorAll(".check");
 const check = document.querySelector(".checkbox");
 const button = document.getElementById("complete-status");
@@ -33,7 +106,6 @@ const clearCompleted = document.getElementById("clear-completed");
 button.addEventListener("click", function () {
   // Redirect to another route when the button is clicked
   // window.location.href = "/completedTodo";
-
   todoContainer.innerHTML = "";
   fetch(`/completedTodo`, {
     method: "GET",
@@ -46,27 +118,26 @@ button.addEventListener("click", function () {
         const paragraph = document.createElement("p");
         const label = document.createElement("label");
 
-        checkbox.addEventListener("change", function () {
-          console.log("hello");
-          completedTodo(todo.id);
-          label.classList.remove("checked");
-        });
-
         listItem.classList.add("round");
         listItem.classList.add("task");
         checkbox.type = "checkbox";
-        // checkbox.checked = todo.completed;
+        checkbox.checked = todo.completed;
 
-        checkbox.classList.add("check");
         checkbox.value = todo.id;
         checkbox.id = `checkbox${index}`;
         checkbox.name = "todoId";
 
+        checkbox.addEventListener("change", function () {
+          if (this.checked) {
+            alert("hello");
+          }
+        });
+
         paragraph.textContent = todo.item;
         paragraph.classList.add("check");
 
-        label.for = `${todo.id}`;
-        label.classList.add("checked");
+        label.htmlFor = `${todo.id}`;
+        // label.classList.add("checked");
         if (todo.completed) {
           label.classList.add("checked");
         } else {
@@ -114,8 +185,8 @@ active.addEventListener("click", function () {
         <div class="todo-container">
                         
             <li  class="round task">
-                <input type="checkbox" name="todoId" value = "${todo.id}" id="checkbox${index}" class="checked" onchange="getTodos('${data}')" onclick="completedTodo('${todo.id}')">
-                <label for="checkbox${index}"></label>
+                <input type="checkbox" name="todoId" value = "${todo.id}" id="checkbox${index}" class="checked" onchange="alert('hello')" onclick="completedTodo('${todo.id}')">
+                <label for="checkbox${index}" class = "checked"></label>
                 <p class = "todoText">${todo.item}</p>                        
             </li>
         </div>
@@ -167,7 +238,7 @@ const newTodos = [tod];
 // const todoArray = getTodos(todos);
 // console.log(todoArray);
 checkboxes.forEach((checkbox) => {
-  checkbox.addEventListener("change", function () {
+  checkbox.addEventListener("click", function () {
     // Update counter based on checkbox state
     if (this.checked) {
       completedTodosCount++;
@@ -181,13 +252,3 @@ checkboxes.forEach((checkbox) => {
 });
 const updatedTodos = newTodos.map((todo) => todo.split(","));
 const allTodos = updatedTodos[0].length;
-
-function updateCounterUI() {
-  //  update the UI with the new completedTodosCount value
-
-  document.getElementById("complete").innerText =
-    allTodos - completedTodosCount + " items left";
-}
-
-// updateCounterUI initially to set the counter value
-updateCounterUI();

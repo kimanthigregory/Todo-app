@@ -20,7 +20,7 @@ theme.addEventListener("click", function () {
   // body.classList.toggle("light")
 });
 
-const checkmark = document.querySelector(".checkbox");
+const checkmark = document.querySelector(".check");
 
 checkmark.addEventListener("change", function () {
   localStorage.setItem("checkBoxState", checkmark.checked);
