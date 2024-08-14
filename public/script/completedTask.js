@@ -19,7 +19,7 @@
 // .catch(error=>console.error(error));
 
 // }
-const createTodo = function (todo, index) {
+const createTodo = function (todo, index, counter) {
   const listItem = document.createElement("li");
   const checkbox = document.createElement("input");
   const paragraph = document.createElement("p");
@@ -50,23 +50,16 @@ const createTodo = function (todo, index) {
     console.log(todo.id);
     checked = !checked;
     if (checked) {
-      completedTodosCount++;
+      counter++;
       console.log(completedTodosCount);
     } else {
-      completedTodosCount--;
+      counter--;
       console.log(completedTodosCount);
     }
   });
 
-  function updateCounterUI() {
-    //  update the UI with the new completedTodosCount value
-
-    document.getElementById("complete").innerText =
-      allTodos - completedTodosCount + " items left";
-  }
-
+  console.log(completedTodosCount);
   // updateCounterUI initially to set the counter value
-  updateCounterUI();
 
   if (todo.completed) {
     label.classList.add("checked");
@@ -88,7 +81,14 @@ fetch(`/allTodo`, {
   .then((response) => response.json())
   .then((data) => {
     data.forEach((todo, index) => {
-      createTodo(todo, index);
+      createTodo(todo, index, data);
+      function updateCounterUI(allTodos, counter) {
+        //  update the UI with the new completedTodosCount value
+        const todoLength = allTodos.length;
+        document.getElementById("complete").innerText =
+          todoLength - counter + " items left";
+      }
+      updateCounterUI(data, completedTodosCount);
     });
   })
   .catch((error) => console.error(error));

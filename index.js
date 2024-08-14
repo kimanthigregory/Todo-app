@@ -73,8 +73,10 @@ app.post("/completed", async (req, res) => {
         [todos.completed, todos.id]
       );
       const updatedTodo = result.rows;
-      res.json(updatedTodo);
-      // res.json({succes:true,message:"todo marked completed succesfully"});
+      // res.json(updatedTodo);
+      res
+        .status(200)
+        .json({ succes: true, message: "todo marked completed succesfully" });
     } else {
       res.status(404).json({ succes: false, message: "todo not found" });
     }
