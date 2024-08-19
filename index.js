@@ -72,11 +72,17 @@ app.post("/completed", async (req, res) => {
         "UPDATE  todo SET  completed = $1 WHERE  id = $2 RETURNING *",
         [todos.completed, todos.id]
       );
+
+      const allTodos = await db.query("  SELECT *  FROM todo ");
+
       const updatedTodo = result.rows;
       // res.json(updatedTodo);
-      res
-        .status(200)
-        .json({ succes: true, message: "todo marked completed succesfully" });
+      console.log(updatedTodo);
+      res.status(200).json({
+        succes: true,
+        message: "todo marked completed succesfully",
+        todos: allTodos.rows,
+      });
     } else {
       res.status(404).json({ succes: false, message: "todo not found" });
     }

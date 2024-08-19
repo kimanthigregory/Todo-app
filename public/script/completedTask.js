@@ -19,7 +19,7 @@
 // .catch(error=>console.error(error));
 
 // }
-const createTodo = function (todo, index) {
+const createTodo = function (todo, index, data) {
   const listItem = document.createElement("li");
   const checkbox = document.createElement("input");
   const paragraph = document.createElement("p");
@@ -48,16 +48,18 @@ const createTodo = function (todo, index) {
     paragraph.classList.toggle("todoText");
     completedTodo(todo.id);
     console.log(todo.id);
-    // checked = !checked;
-    // if (checked) {
-    //   counter++;
-    //   document.getElementById("complete").innerText = counter + " items left";
-    // } else {
-    //   counter--;
-    //   document.getElementById("complete").innerText = counter + " items left";
-    // }
   });
 
+  function updateCounterUI(data) {
+    //  update the UI with the new completedTodosCount value
+    const todoLength = data.length;
+    const completedTask = data.filter((todo) => todo.completed).length;
+    const itemsLeft = todoLength - completedTask;
+    document.getElementById("complete").innerText = itemsLeft + " items left";
+
+    return itemsLeft;
+  }
+  updateCounterUI(data);
   // console.log(completedTodosCount);
   // updateCounterUI initially to set the counter value
 
@@ -81,19 +83,30 @@ fetch(`/allTodo`, {
   .then((response) => response.json())
   .then((data) => {
     data.forEach((todo, index) => {
-      createTodo(todo, index);
+      createTodo(todo, index, data);
 
-      function updateCounterUI() {
-        //  update the UI with the new completedTodosCount value
-        const todoLength = data.length;
-        const completedTask = data.filter((todo) => todo.completed).length;
-        const itemsLeft = todoLength - completedTask;
-        document.getElementById("complete").innerText =
-          itemsLeft + " items left";
-
-        return itemsLeft;
-      }
-      updateCounterUI();
+      // let counter = 0;
+      // let todoLeft = updateCounterUI();
+      // let completed = false;
+      // const todoLabel = document.querySelectorAll("label");
+      // todoLabel.forEach((checkbox) => {
+      //   checkbox.addEventListener("click", function () {
+      //     if (this.click) {
+      //       counter++;
+      //       todoCounter(counter, todoLeft);
+      //     } else {
+      //       counter--;
+      //       todoCounter(counter, todoLeft);
+      //     }
+      //     console.log(counter);
+      //     console.log(todoLeft);
+      //   });
+      // });
+      // const todoCounter = function (counter, todoLeft) {
+      //   document.getElementById("complete").innerText = `${
+      //     todoLeft - counter
+      //   }  items left`;
+      // };
     });
   })
   .catch((error) => console.error(error));
@@ -158,24 +171,6 @@ button.addEventListener("click", function () {
     .catch((error) => console.error(error));
 });
 
-let counter = updateCounterUI();
-
-const checkLabel = document.querySelectorAll("label");
-checkLabel.forEach((checkbox) => {
-  let counter = updateCounterUI();
-  checkbox.addEventListener("click", function () {
-    // Update counter based on checkbox state
-    alert("hello");
-    const complete = document.getElementById("complete");
-    if (this.click) {
-      counter++;
-    } else {
-      counter--;
-    }
-    complete.innerText = counter + " items left";
-  });
-});
-
 function completedTodo(todo) {
   fetch("/completed", {
     method: "POST",
@@ -187,10 +182,23 @@ function completedTodo(todo) {
     .then((response) => response.json())
     .then((data) => {
       if (data.success) {
-        console.log("todo marked as completed succesfully");
+        console.log("todo marked hello as completed succesfully");
       } else {
         console.error(data.message);
+        updateCounterUI(data.todos);
       }
+
+      function updateCounterUI(todos) {
+        //  update the UI with the new completedTodosCount value
+        const todoLength = todos.length;
+        const completedTask = todos.filter((todo) => todo.completed).length;
+        const itemsLeft = todoLength - completedTask;
+        document.getElementById("complete").innerText =
+          itemsLeft + " items left";
+
+        return itemsLeft;
+      }
+      console.log(updateCounterUI(data.todos));
     })
     .catch((error) => console.error(error));
 }
@@ -256,7 +264,7 @@ clearCompleted.addEventListener("click", function () {
 let completedTodosCount = 0; // Counter for completed todos
 let tod = check.getAttribute("onchange");
 
-const newTodos = [tod];
+// const newTodos = [tod];
 
 // const todoArray = getTodos(todos);
 // console.log(todoArray);
