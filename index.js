@@ -150,11 +150,18 @@ app.delete("/delete/:todo", async (req, res) => {
     const result = await db.query("DELETE FROM  todo WHERE id = $1; ", [
       todoDelete,
     ]);
+
+    const Todos = await db.query("  SELECT *  FROM todo ");
+
     const deleteTodo = result.rows;
     console.log(deleteTodo);
 
     // res.redirect("/");
-    res.json({ succes: true, message: "todo deleted successfully" });
+    res.json({
+      succes: true,
+      message: "todo deleted successfully",
+      allTodos: Todos.rows,
+    });
   } catch (error) {
     console.log(error);
   }

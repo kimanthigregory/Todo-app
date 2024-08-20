@@ -24,6 +24,8 @@ const createTodo = function (todo, index, data) {
   const checkbox = document.createElement("input");
   const paragraph = document.createElement("p");
   const label = document.createElement("label");
+  const deleteBtn = document.createElement("button");
+  const deleteIcon = document.createElement("img");
 
   listItem.classList.add("round");
   listItem.classList.add("task");
@@ -38,10 +40,6 @@ const createTodo = function (todo, index, data) {
   paragraph.textContent = todo.item;
 
   label.htmlFor = `${todo.id}`;
-  // label.classList.add("checked");
-  // let checked = false;
-  // let counter = updateCounterUI();
-  // console.log(counter);
   label.addEventListener("click", function () {
     label.classList.toggle("checked");
     paragraph.classList.toggle("check");
@@ -63,6 +61,11 @@ const createTodo = function (todo, index, data) {
   // console.log(completedTodosCount);
   // updateCounterUI initially to set the counter value
 
+  deleteBtn.id = todo.id;
+  deleteIcon.src = "/images/icon-cross.svg";
+  deleteIcon.addEventListener("click", () => {
+    deleteTodo(todo.id);
+  });
   if (todo.completed) {
     label.classList.add("checked");
     paragraph.classList.add("check");
@@ -76,6 +79,8 @@ const createTodo = function (todo, index, data) {
   listItem.appendChild(checkbox);
   listItem.appendChild(label);
   listItem.appendChild(paragraph);
+  listItem.appendChild(deleteBtn);
+  deleteBtn.appendChild(deleteIcon);
 };
 fetch(`/allTodo`, {
   method: "GET",
@@ -84,29 +89,6 @@ fetch(`/allTodo`, {
   .then((data) => {
     data.forEach((todo, index) => {
       createTodo(todo, index, data);
-
-      // let counter = 0;
-      // let todoLeft = updateCounterUI();
-      // let completed = false;
-      // const todoLabel = document.querySelectorAll("label");
-      // todoLabel.forEach((checkbox) => {
-      //   checkbox.addEventListener("click", function () {
-      //     if (this.click) {
-      //       counter++;
-      //       todoCounter(counter, todoLeft);
-      //     } else {
-      //       counter--;
-      //       todoCounter(counter, todoLeft);
-      //     }
-      //     console.log(counter);
-      //     console.log(todoLeft);
-      //   });
-      // });
-      // const todoCounter = function (counter, todoLeft) {
-      //   document.getElementById("complete").innerText = `${
-      //     todoLeft - counter
-      //   }  items left`;
-      // };
     });
   })
   .catch((error) => console.error(error));
@@ -131,41 +113,7 @@ button.addEventListener("click", function () {
     .then((response) => response.json())
     .then((data) => {
       data.forEach((todo, index) => {
-        const listItem = document.createElement("li");
-        const checkbox = document.createElement("input");
-        const paragraph = document.createElement("p");
-        const label = document.createElement("label");
-
-        listItem.classList.add("round");
-        listItem.classList.add("task");
-        checkbox.type = "checkbox";
-        checkbox.checked = todo.completed;
-
-        checkbox.value = todo.id;
-        checkbox.id = `checkbox${index}`;
-        checkbox.name = "todoId";
-
-        checkbox.addEventListener("change", function () {
-          if (this.checked) {
-            alert("hello");
-          }
-        });
-
-        paragraph.textContent = todo.item;
-        paragraph.classList.add("check");
-
-        label.htmlFor = `${todo.id}`;
-        // label.classList.add("checked");
-        if (todo.completed) {
-          label.classList.add("checked");
-        } else {
-          label.classList.remove("checked");
-        }
-
-        todoContainer.appendChild(listItem);
-        listItem.appendChild(checkbox);
-        listItem.appendChild(label);
-        listItem.appendChild(paragraph);
+        createTodo(todo, index, data);
       });
     })
     .catch((error) => console.error(error));
@@ -183,6 +131,7 @@ function completedTodo(todo) {
     .then((data) => {
       if (data.success) {
         console.log("todo marked hello as completed succesfully");
+        updateCounterUI(data.todos);
       } else {
         console.error(data.message);
         updateCounterUI(data.todos);
@@ -212,17 +161,7 @@ active.addEventListener("click", function () {
     .then((response) => response.json())
     .then((data) => {
       data.forEach((todo, index) => {
-        const html = `
-        <div class="todo-container">
-                        
-            <li  class="round task">
-                <input type="checkbox" name="todoId" value = "${todo.id}" id="checkbox${index}" class="checked" onchange="alert('hello')" onclick="completedTodo('${todo.id}')">
-                <label for="checkbox${index}" class = "checked"></label>
-                <p class = "todoText">${todo.item}</p>                        
-            </li>
-        </div>
-        `;
-        todoContainer.insertAdjacentHTML("afterbegin", html);
+        createTodo(todo, index, data);
       });
     })
     .catch((error) => console.error(error));
@@ -232,27 +171,15 @@ active.addEventListener("click", function () {
 all.addEventListener("click", function () {
   // Redirect to another route when the button is clicked
   // window.location.href = "/allTodo";
+
+  todoContainer.innerHTML = "";
   fetch(`/allTodo`, {
-    // method: "GET",
+    method: "GET",
   })
     .then((response) => response.json())
     .then((data) => {
-      todoContainer.innerHTML = "";
       data.forEach((todo, index) => {
-        const html = `
-        <div class="todo-container">
-                        
-            <li  class="round task">
-                <input type="checkbox" name="todoId" value = "${todo.id}" id="checkbox${index}" class="checkbox" onchange="getTodos('${data}')" onclick="completedTodo('${todo.id}')">
-                <label for="checkbox${index}"></label>
-                <p>${todo.item}</p> 
-                <button id="${todo.id}" onclick="deleteTodo('${todo.id}')">
-                    <img src="/images/icon-cross.svg" alt="">
-                </button>                        
-            </li>
-        </div>
-        `;
-        todoContainer.insertAdjacentHTML("afterbegin", html);
+        createTodo(todo, index, data);
       });
     })
     .catch((error) => console.error(error));
