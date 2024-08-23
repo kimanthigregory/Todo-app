@@ -12,7 +12,7 @@ const db = new pg.Client({
 db.connect();
 
 const app = express();
-const port = 3000;
+const port = 8080;
 // let todos = [];
 
 let completedTask = 0;
