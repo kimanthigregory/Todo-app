@@ -16,22 +16,4 @@ theme.addEventListener("click", function () {
     theme.src = "/images/icon-sun.svg";
     localStorage.setItem("dark-mode", "disabled");
   }
-  // console.log("clicked");
-  // body.classList.toggle("light")
 });
-
-const checkmark = document.querySelector(".check");
-
-checkmark.addEventListener("change", function () {
-  localStorage.setItem("checkBoxState", checkmark.checked);
-});
-
-const savedState = localStorage.getItem("checkBoxState");
-if (savedState === "true") {
-  checkmark.checked = true;
-
-  checkmark.classList.add("check");
-} else {
-  checkmark.checked = false;
-  checkmark.classList.remove("check");
-}

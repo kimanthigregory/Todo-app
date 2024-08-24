@@ -20,7 +20,7 @@ const port = 3000;
 let completedTask = 0;
 
 async function getItems() {
-  const result = await db.query("  SELECT *  FROM todo ");
+  const result = await db.query("  SELECT *  FROM todo ORDER BY id ASC");
   const todoItems = result.rows;
   return todoItems;
 }
@@ -75,7 +75,7 @@ app.post("/completed", async (req, res) => {
         [todos.completed, todos.id]
       );
 
-      const allTodos = await db.query("  SELECT *  FROM todo ");
+      const allTodos = await db.query("  SELECT *  FROM todo ORDER BY id ASC ");
 
       const updatedTodo = result.rows;
       // res.json(updatedTodo);
@@ -102,17 +102,12 @@ app.get("/completedTodo", async (req, res) => {
     );
     const completedTodo = result.rows;
     console.log(completedTodo);
-
-    // res.render("index.ejs", { newTodos: completedTodo });
     res.json(completedTodo);
   } catch (error) {
     console.log(error);
   }
 });
-// app.get("/active",(req,res)=>{
-//     res.render("index.ejs",{newTodos:active});
-//     active=[];
-// })
+
 app.get("/activeTodo", async (req, res) => {
   try {
     const result = await db.query(
@@ -153,12 +148,11 @@ app.delete("/delete/:todo", async (req, res) => {
       todoDelete,
     ]);
 
-    const Todos = await db.query("  SELECT *  FROM todo ");
+    const Todos = await db.query("  SELECT *  FROM todo ORDER BY id ASC");
 
     const deleteTodo = result.rows;
     console.log(deleteTodo);
 
-    // res.redirect("/");
     res.json({
       succes: true,
       message: "todo deleted successfully",

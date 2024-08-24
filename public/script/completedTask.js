@@ -1,24 +1,3 @@
-// const compl=document.querySelector("#complete-status");
-// function completeStatus(todos){
-//   fetch("/submit",{
-//     method:'POST',
-//     headers:{
-//       "content-type":" application/x-www-form-urlencoded",
-//     },
-//     body:`todo=${encodeURIComponent(todos)}`,
-//   })
-// .then(response=>response.json())
-// .then(data=>{
-//   if(data.success){
-//     console.log("todo list updated succesfully ")
-//   }
-//   else{
-//     console.error(data.message)
-//   }
-// })
-// .catch(error=>console.error(error));
-
-// }
 const createTodo = function (todo, index, data) {
   const listItem = document.createElement("li");
   const checkbox = document.createElement("input");
@@ -58,8 +37,6 @@ const createTodo = function (todo, index, data) {
     return itemsLeft;
   }
   updateCounterUI(data);
-  // console.log(completedTodosCount);
-  // updateCounterUI initially to set the counter value
 
   deleteBtn.id = todo.id;
   deleteIcon.src = "/images/icon-cross.svg";
@@ -188,25 +165,3 @@ clearCompleted.addEventListener("click", function () {
   // Redirect to another route when the button is clicked
   window.location.href = "/clearCompleted";
 });
-let completedTodosCount = 0; // Counter for completed todos
-let tod = check.getAttribute("onchange");
-
-// const newTodos = [tod];
-
-// const todoArray = getTodos(todos);
-// console.log(todoArray);
-// checkboxes.forEach((checkbox) => {
-//   checkbox.addEventListener("click", function () {
-//     // Update counter based on checkbox state
-//     if (this.checked) {
-//       completedTodosCount++;
-//     } else {
-//       completedTodosCount--;
-//     }
-
-//     // Update the UI with the new counter value
-//     updateCounterUI();
-//   });
-// });
-// const updatedTodos = newTodos.map((todo) => todo.split(","));
-// const allTodos = updatedTodos[0].length;
