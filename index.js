@@ -1,18 +1,20 @@
 import express from "express";
 import pg from "pg";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "Todo-app",
-  password: "greg",
-  port: "5432",
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 db.connect();
 
 const app = express();
-const port = 8080;
+const port = 3000;
 // let todos = [];
 
 let completedTask = 0;
